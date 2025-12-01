@@ -16,7 +16,6 @@ Aplikasi berbasis Laravel untuk mengelola pendaftaran lomba secara online.
 - MySQL
 - Bootstrap
 ## ⚙️ Cara Menjalankan Project
-1. Clone repository
 ```bash
-git clone https://github.com/MuhamadFeril/Laravel-Pendaftaran-lomba.git
+php artisan serve
 
