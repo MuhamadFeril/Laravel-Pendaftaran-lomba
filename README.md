@@ -25,7 +25,7 @@ Pastikan sudah meng-install:
 - PHP 8+
 - MySQL  
 - Composer → **https://getcomposer.org/download/**
-- Node.js (opsional)
+
 
 Clone project (opsional):
 
