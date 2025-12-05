@@ -1,16 +1,18 @@
+:
+
 🎯 Sistem Pendaftaran Lomba
 
-Aplikasi Laravel ini digunakan untuk mengelola pendaftaran lomba dengan dua role utama:
+Aplikasi Laravel untuk pendaftaran lomba, dengan dua role:
 
-🛠 Admin — Mengelola Kategori, Subkategori, Event, dan melihat daftar pendaftar.
+Admin → Mengelola Kategori, Subkategori, Event, dan melihat pendaftaran.
 
-👤 User — Melihat daftar Event dan melakukan pendaftaran lomba.
+User → Melihat Event & mendaftar lomba.
 
-Semua pengguna disimpan dalam satu tabel users dengan kolom role untuk membedakan admin & user.
+Semua user berada dalam satu tabel users dengan kolom role.
 
 📥 Persiapan
 
-Pastikan sudah menginstall:
+Pastikan sudah meng-install:
 
 PHP 8+
 
@@ -18,7 +20,7 @@ MySQL
 
 Composer → https://getcomposer.org/download/
 
-Node.js (opsional, jika memakai asset builder)
+Node.js (opsional)
 
 Clone project (opsional):
 
@@ -26,18 +28,15 @@ git clone https://github.com/username/laravel-pendaftaran-lomba.git
 cd laravel-pendaftaran-lomba
 
 🚀 Instalasi Project
-1️⃣ Buat project Laravel (jika memulai dari awal)
+1️⃣ Buat project Laravel
 composer create-project laravel/laravel pendaftaran-lomba
 cd pendaftaran-lomba
 
-2️⃣ Konfigurasi Database
+2️⃣ Konfigurasi database
 
 Edit file:
 
 config/database.php
-
-
-Ubah bagian MySQL:
 
 'mysql' => [
     'driver' => 'mysql',
@@ -48,10 +47,10 @@ Ubah bagian MySQL:
     'password' => '',
 ],
 
-3️⃣ Migrasi Database
+3️⃣ Migrasi database
 php artisan migrate
 
-4️⃣ Jalankan Server Laravel
+4️⃣ Jalankan server
 php artisan serve
 
 
@@ -62,30 +61,30 @@ Akses di browser:
 pendaftaran-lomba/
 ├── app/
 │   ├── Http/
-│   │     └── Controllers/
-│   │           ├── AuthController.php
-│   │           ├── CategoryController.php
-│   │           ├── SubcategoryController.php
-│   │           ├── EventController.php
-│   │           └── RegistrationController.php
+│   │   └── Controllers/
+│   │       ├── AuthController.php
+│   │       ├── CategoryController.php
+│   │       ├── SubcategoryController.php
+│   │       ├── EventController.php
+│   │       └── RegistrationController.php
 │   └── Models/
-│         ├── User.php
-│         ├── Category.php
-│         ├── Subcategory.php
-│         ├── Event.php
-│         └── Registration.php
+│       ├── User.php
+│       ├── Category.php
+│       ├── Subcategory.php
+│       ├── Event.php
+│       └── Registration.php
 ├── routes/web.php
 ├── resources/views/
-│     ├── layouts/
-│     │     ├── admin.blade.php
-│     │     └── user.blade.php
-│     ├── categories/
-│     ├── subcategories/
-│     ├── events/
-│     └── registration/
+│   ├── layouts/
+│   │   ├── admin.blade.php
+│   │   └── user.blade.php
+│   ├── categories/
+│   ├── subcategories/
+│   ├── events/
+│   └── registration/
 └── public/assets/
 
-🛠 Perintah Controller
+🛠 Pembuatan Controller
 php artisan make:controller AuthController
 php artisan make:controller CategoryController --resource
 php artisan make:controller SubcategoryController --resource
@@ -106,7 +105,7 @@ Route::resource('registration', RegistrationController::class)
 Route::get('/admin/registrations',[RegistrationController::class,'adminIndex']);
 Route::get('/events',[EventController::class,'userIndex']);
 
-🎨 Frontend
+🎨 Tampilan Frontend
 🧩 Admin Layout
 resources/views/layouts/admin.blade.php
 
@@ -150,9 +149,12 @@ resources/views/registration/create.blade.php
 
 @extends('layouts.user')
 @section('content')
+
 <h3>Pendaftaran Lomba</h3>
+
 <form action="{{ route('registration.store') }}" method="POST">
     @csrf
+
     <div class="mb-3">
         <label>Nama Peserta</label>
         <input type="text" name="name" class="form-control" required>
@@ -169,16 +171,21 @@ resources/views/registration/create.blade.php
 
     <button class="btn btn-success">Daftar</button>
 </form>
+
 @endsection
 
 📌 Fitur Utama
 
-✔ Tabel users untuk admin & user (role-based)
-✔ CRUD Category, Subcategory, Event, Registration
-✔ Frontend terpisah untuk Admin & User
-✔ Routing sederhana tanpa middleware
-✔ Langsung jalan di localhost tanpa konfigurasi tambahan
+✔ Sistem Role (Admin & User)
+
+✔ CRUD: Category, Subcategory, Event, Registration
+
+✔ Tampilan Admin & User terpisah
+
+✔ Database langsung dari config
+
+✔ Mudah dijalankan di localhost
 
 📎 Lisensi
 
-Project ini bebas digunakan untuk kebutuhan pembelajaran & pengembangan.
+Project ini bebas digunakan untuk pembelajaran & pengembangan.
