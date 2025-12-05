@@ -1,34 +1,43 @@
-# 🎯 Sistem Pendaftaran Lomba
+🎯 Sistem Pendaftaran Lomba
 
+Aplikasi Laravel ini digunakan untuk mengelola pendaftaran lomba dengan dua role utama:
 
+🛠 Admin — Mengelola Kategori, Subkategori, Event, dan melihat daftar pendaftar.
 
-Aplikasi ini digunakan untuk pendaftaran lomba dengan dua role pengguna:
+👤 User — Melihat daftar Event dan melakukan pendaftaran lomba.
 
-Admin: mengelola Kategori, Subkategori, Event, dan melihat daftar pendaftar.
+Semua pengguna disimpan dalam satu tabel users dengan kolom role untuk membedakan admin & user.
 
-User: melihat Event dan mendaftar lomba.
+📥 Persiapan
 
+Pastikan sudah menginstall:
 
-Semua user tersimpan di satu tabel users dengan kolom role untuk membedakan admin dan user.
+PHP 8+
 
-Download Composer (jika belum ada): https://getcomposer.org/download/
+MySQL
 
-Clone project (opsional jika ingin langsung dari GitHub):
+Composer → https://getcomposer.org/download/
+
+Node.js (opsional, jika memakai asset builder)
+
+Clone project (opsional):
 
 git clone https://github.com/username/laravel-pendaftaran-lomba.git
 cd laravel-pendaftaran-lomba
 
-
----
-
 🚀 Instalasi Project
-
-1️⃣ Buat project baru
-
+1️⃣ Buat project Laravel (jika memulai dari awal)
 composer create-project laravel/laravel pendaftaran-lomba
 cd pendaftaran-lomba
 
-2️⃣ Atur database di config/database.php
+2️⃣ Konfigurasi Database
+
+Edit file:
+
+config/database.php
+
+
+Ubah bagian MySQL:
 
 'mysql' => [
     'driver' => 'mysql',
@@ -39,19 +48,17 @@ cd pendaftaran-lomba
     'password' => '',
 ],
 
-3️⃣ Migrasi database
-
+3️⃣ Migrasi Database
 php artisan migrate
 
-4️⃣ Jalankan server
-
+4️⃣ Jalankan Server Laravel
 php artisan serve
 
 
----
+Akses di browser:
+👉 http://127.0.0.1:8000
 
 🗂 Struktur Proyek
-
 pendaftaran-lomba/
 ├── app/
 │   ├── Http/
@@ -78,39 +85,29 @@ pendaftaran-lomba/
 │     └── registration/
 └── public/assets/
 
-
----
-
-🛠 Pembuatan Controller
-
+🛠 Perintah Controller
 php artisan make:controller AuthController
 php artisan make:controller CategoryController --resource
 php artisan make:controller SubcategoryController --resource
 php artisan make:controller EventController --resource
 php artisan make:controller RegistrationController --resource
 
-
----
-
-🛠 Routing (routes/web.php)
-
+🔗 Routing (routes/web.php)
 Route::get('/login',[AuthController::class,'index'])->name('login');
 Route::post('/login',[AuthController::class,'login']);
 
-Route::resource('categories',CategoryController::class);
-Route::resource('subcategories',SubcategoryController::class);
-Route::resource('events',EventController::class);
-Route::resource('registration',RegistrationController::class)->only(['index','create','store','show']);
+Route::resource('categories', CategoryController::class);
+Route::resource('subcategories', SubcategoryController::class);
+Route::resource('events', EventController::class);
+
+Route::resource('registration', RegistrationController::class)
+    ->only(['index','create','store','show']);
+
 Route::get('/admin/registrations',[RegistrationController::class,'adminIndex']);
 Route::get('/events',[EventController::class,'userIndex']);
 
-
----
-
-🎨 FRONTEND
-
-Admin Layout
-
+🎨 Frontend
+🧩 Admin Layout
 resources/views/layouts/admin.blade.php
 
 <!DOCTYPE html>
@@ -129,8 +126,7 @@ resources/views/layouts/admin.blade.php
 </body>
 </html>
 
-User Layout
-
+🧩 User Layout
 resources/views/layouts/user.blade.php
 
 <!DOCTYPE html>
@@ -149,8 +145,7 @@ resources/views/layouts/user.blade.php
 </body>
 </html>
 
-Form Pendaftaran User
-
+📝 Form Pendaftaran User
 resources/views/registration/create.blade.php
 
 @extends('layouts.user')
@@ -162,6 +157,7 @@ resources/views/registration/create.blade.php
         <label>Nama Peserta</label>
         <input type="text" name="name" class="form-control" required>
     </div>
+
     <div class="mb-3">
         <label>Pilih Event</label>
         <select name="event_id" class="form-control">
@@ -170,50 +166,19 @@ resources/views/registration/create.blade.php
             @endforeach
         </select>
     </div>
+
     <button class="btn btn-success">Daftar</button>
 </form>
 @endsection
 
-📌 Cara Menjalankan Laravel
+📌 Fitur Utama
 
-1. Pastikan PHP, MySQL, Composer sudah terinstall
+✔ Tabel users untuk admin & user (role-based)
+✔ CRUD Category, Subcategory, Event, Registration
+✔ Frontend terpisah untuk Admin & User
+✔ Routing sederhana tanpa middleware
+✔ Langsung jalan di localhost tanpa konfigurasi tambahan
 
+📎 Lisensi
 
-2. Jalankan migrasi:
-
-
-
-php artisan migrate
-
-3. Jalankan server Laravel:
-
-
-
-php artisan serve
-
-4. Akses aplikasi melalui browser: http://127.0.0.1:8000
-
-
-
-
----
-
-📝 Penjelasan
-
-Tabel Users digunakan untuk semua user dan admin, dengan kolom role
-
-CRUD tersedia untuk Category, Subcategory, Event, Registration
-
-Frontend terpisah: admin untuk pengelolaan, user untuk pendaftaran
-
-Routing sederhana tanpa middleware (langsung akses ke controller)
-
-Database diatur di config/database.php tanpa .env
-
-Bisa langsung di-upload ke GitHub dan dijalankan di browser lokal
-
----
-
-
- 
-
+Project ini bebas digunakan untuk kebutuhan pembelajaran & pengembangan.
