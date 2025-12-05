@@ -1,43 +1,55 @@
-:
+# 🎯 Sistem Pendaftaran Lomba
 
-🎯 Sistem Pendaftaran Lomba
+Aplikasi **Laravel** untuk pendaftaran lomba dengan dua role utama:
 
-Aplikasi Laravel untuk pendaftaran lomba, dengan dua role:
+- **Admin** → Mengelola Kategori, Subkategori, Event, dan melihat pendaftaran  
+- **User** → Melihat Event & mendaftar lomba  
 
-Admin → Mengelola Kategori, Subkategori, Event, dan melihat pendaftaran.
+Semua user berada pada satu tabel `users` dengan kolom `role`.
 
-User → Melihat Event & mendaftar lomba.
+---
 
-Semua user berada dalam satu tabel users dengan kolom role.
+## 📛 Tech Stack
 
-📥 Persiapan
+![Laravel](https://img.shields.io/badge/Laravel-10-red)
+![PHP](https://img.shields.io/badge/PHP-8.0+-blue)
+![MySQL](https://img.shields.io/badge/MySQL-Database-orange)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-5-blueviolet)
+
+---
+
+## 📥 Persiapan
 
 Pastikan sudah meng-install:
 
-PHP 8+
-
-MySQL
-
-Composer → https://getcomposer.org/download/
-
-Node.js (opsional)
+- PHP 8+
+- MySQL  
+- Composer → **https://getcomposer.org/download/**
+- Node.js (opsional)
 
 Clone project (opsional):
 
+```bash
 git clone https://github.com/username/laravel-pendaftaran-lomba.git
 cd laravel-pendaftaran-lomba
+```
 
-🚀 Instalasi Project
-1️⃣ Buat project Laravel
+---
+
+## 🚀 Instalasi Project
+
+### 1️⃣ Buat Project Laravel
+
+```bash
 composer create-project laravel/laravel pendaftaran-lomba
 cd pendaftaran-lomba
+```
 
-2️⃣ Konfigurasi database
+### 2️⃣ Konfigurasi Database
 
-Edit file:
+Edit file `config/database.php`:
 
-config/database.php
-
+```php
 'mysql' => [
     'driver' => 'mysql',
     'host' => '127.0.0.1',
@@ -46,18 +58,28 @@ config/database.php
     'username' => 'root',
     'password' => '',
 ],
+```
 
-3️⃣ Migrasi database
+### 3️⃣ Migrasi Database
+
+```bash
 php artisan migrate
+```
 
-4️⃣ Jalankan server
+### 4️⃣ Jalankan Server
+
+```bash
 php artisan serve
+```
 
-
-Akses di browser:
+Akses aplikasi:  
 👉 http://127.0.0.1:8000
 
-🗂 Struktur Proyek
+---
+
+## 🗂 Struktur Proyek
+
+```
 pendaftaran-lomba/
 ├── app/
 │   ├── Http/
@@ -83,15 +105,25 @@ pendaftaran-lomba/
 │   ├── events/
 │   └── registration/
 └── public/assets/
+```
 
-🛠 Pembuatan Controller
+---
+
+## 🛠 Pembuatan Controller
+
+```bash
 php artisan make:controller AuthController
 php artisan make:controller CategoryController --resource
 php artisan make:controller SubcategoryController --resource
 php artisan make:controller EventController --resource
 php artisan make:controller RegistrationController --resource
+```
 
-🔗 Routing (routes/web.php)
+---
+
+## 🔗 Routing (routes/web.php)
+
+```php
 Route::get('/login',[AuthController::class,'index'])->name('login');
 Route::post('/login',[AuthController::class,'login']);
 
@@ -104,11 +136,15 @@ Route::resource('registration', RegistrationController::class)
 
 Route::get('/admin/registrations',[RegistrationController::class,'adminIndex']);
 Route::get('/events',[EventController::class,'userIndex']);
+```
 
-🎨 Tampilan Frontend
-🧩 Admin Layout
-resources/views/layouts/admin.blade.php
+---
 
+## 🎨 Tampilan Frontend
+
+### 🧩 Admin Layout (`resources/views/layouts/admin.blade.php`)
+
+```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -124,10 +160,13 @@ resources/views/layouts/admin.blade.php
 <div class="container">@yield('content')</div>
 </body>
 </html>
+```
 
-🧩 User Layout
-resources/views/layouts/user.blade.php
+---
 
+### 🧩 User Layout (`resources/views/layouts/user.blade.php`)
+
+```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -143,10 +182,13 @@ resources/views/layouts/user.blade.php
 <div class="container">@yield('content')</div>
 </body>
 </html>
+```
 
-📝 Form Pendaftaran User
-resources/views/registration/create.blade.php
+---
 
+## 📝 Form Pendaftaran User (`resources/views/registration/create.blade.php`)
+
+```php
 @extends('layouts.user')
 @section('content')
 
@@ -173,19 +215,21 @@ resources/views/registration/create.blade.php
 </form>
 
 @endsection
+```
 
-📌 Fitur Utama
+---
 
-✔ Sistem Role (Admin & User)
+## 📌 Fitur Utama
 
-✔ CRUD: Category, Subcategory, Event, Registration
+✔ Sistem Role (Admin & User)  
+✔ CRUD: Category, Subcategory, Event, Registration  
+✔ Tampilan Admin & User terpisah  
+✔ Database langsung dari config  
+✔ Mudah dijalankan di localhost  
 
-✔ Tampilan Admin & User terpisah
+---
 
-✔ Database langsung dari config
-
-✔ Mudah dijalankan di localhost
-
-📎 Lisensi
+## 📎 Lisensi
 
 Project ini bebas digunakan untuk pembelajaran & pengembangan.
+
