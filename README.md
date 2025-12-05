@@ -1,4 +1,4 @@
-🎯 Sistem Pendaftaran Lomba
+#🎯 Sistem Pendaftaran Lomba
 
 Aplikasi Laravel ini digunakan untuk mengelola pendaftaran lomba dengan dua role utama:
 
