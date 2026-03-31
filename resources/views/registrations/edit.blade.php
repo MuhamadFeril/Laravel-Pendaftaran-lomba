@@ -10,6 +10,7 @@
                 <div class="card-header bg-primary text-white">
                     <h5 class="mb-0">Edit Pendaftaran Lomba</h5>
                 </div>
+                
                 <div class="card-body">
                     @if($errors->any())
                         <div class="alert alert-danger">
@@ -22,19 +23,21 @@
                     @endif
 
                     <div class="alert alert-info small mb-3">
-                        <strong>Pendaftar:</strong> {{ $registration->user->name }} ({{ $registration->user->email }})
+                        <strong>Pendaftar:</strong> {{ $registration->user->name ?? 'N/A' }} 
+                        ({{ $registration->user->email ?? '-' }})
                     </div>
 
-                    <form action="{{ route('registrations.update', $registration->id) }}" method="POST">
+                    <form action="{{ url('api/registrations/' . $registration->id) }}" method="POST">
                         @csrf
-                        @method('PUT')
+                        {{-- Gunakan PATCH karena di api.php anda mendefinisikan PATCH --}}
+                        @method('PATCH')
 
                         <div class="mb-3">
                             <label class="form-label">Nama Peserta</label>
                             <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
                                    value="{{ old('name', $registration->name) }}" required>
                             @error('name')
-                                <div class="invalid-feedback d-block">{{ $message }}</div>
+                                <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
 
@@ -43,7 +46,7 @@
                             <input type="text" name="team_name" class="form-control @error('team_name') is-invalid @enderror"
                                    value="{{ old('team_name', $registration->team_name) }}">
                             @error('team_name')
-                                <div class="invalid-feedback d-block">{{ $message }}</div>
+                                <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
 
@@ -53,13 +56,10 @@
                                 @foreach($events as $e)
                                     <option value="{{ $e->id }}" 
                                         {{ old('event_id', $registration->event_id) == $e->id ? 'selected' : '' }}>
-                                        {{ $e->title }} ({{ $e->date ? \Carbon\Carbon::parse($e->date)->format('d M Y') : 'TBD' }})
+                                        {{ $e->title }}
                                     </option>
                                 @endforeach
                             </select>
-                            @error('event_id')
-                                <div class="invalid-feedback d-block">{{ $message }}</div>
-                            @enderror
                         </div>
 
                         <div class="d-grid gap-2">

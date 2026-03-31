@@ -12,6 +12,7 @@ class AuthController extends Controller
     /**
      * Show the login form.
      */
+
     public function showLoginForm()
     {
         if (Auth::check()) {

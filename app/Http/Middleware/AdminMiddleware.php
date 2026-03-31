@@ -8,13 +8,10 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminMiddleware
 {
-    /**
-     * Handle an incoming request.
-     */
     public function handle(Request $request, Closure $next)
     {
         if (!Auth::check() || Auth::user()->role !== 'admin') {
-            return redirect()->route('dashboard.index')->with('error', 'Akses ditolak. Hanya admin yang dapat mengakses halaman ini.');
+            abort(403, 'Anda tidak memiliki akses.');
         }
 
         return $next($request);

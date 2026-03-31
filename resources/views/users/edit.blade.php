@@ -4,7 +4,9 @@
 <h2>Edit User</h2>
 
         
-    <a href="{{ route('users.create') }}" class="btn btn-primary mb-3">Add New User</a>
+   <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning btn-sm">
+    Edit
+</a>
 
 
 @if($errors->any())

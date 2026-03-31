@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Registration;
@@ -14,7 +13,7 @@ class RegistrationController extends Controller
      */
     public function index()
     {
-        $registrations = Registration::with(['user', 'event'])->paginate(10);
+        $registrations = Registration::with(['user', 'event'])->get();
         return view('registrations.index', compact('registrations'));
     }
 

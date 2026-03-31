@@ -7,56 +7,76 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    @auth
+
+    <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
             <a class="navbar-brand" href="{{ route('dashboard.index') }}">Pendaftaran</a>
+
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
             <div class="collapse navbar-collapse" id="navbarNav">
                 <div class="navbar-nav ms-auto d-flex gap-3 align-items-center">
-                    <a href="{{ route('dashboard.index') }}" class="nav-link text-light">Dashboard</a>
-                    <a href="{{ route('registrations.index') }}" class="nav-link text-light">Registrations</a>
 
-                    @if(Auth::user() && Auth::user()->role === 'admin')
-                        <a href="{{ route('users.index') }}" class="nav-link text-light">Users</a>
-                        <a href="{{ route('events.index') }}" class="nav-link text-light">Events</a>
-                        <a href="{{ route('categories.index') }}" class="nav-link text-light">Categories</a>
-                        <a href="{{ route('subcategories.index') }}" class="nav-link text-light">Subcategories</a>
-                    @endif
-                    
-                    <div class="dropdown">
-                        <button class="btn btn-sm btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                            {{ Auth::user()->name }}
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li>
-                                <form action="{{ route('auth.logout') }}" method="POST" class="dropdown-item p-0">
-                                    @csrf
-                                    <button type="submit" class="btn btn-link text-decoration-none w-100 text-start">Logout</button>
-                                </form>
-                            </li>
-                        </ul>
-                    </div>
+                    <a href="{{ route('dashboard.index') }}" class="nav-link text-light">Dashboard</a>
+
+                    @auth
+                        <a href="{{ route('registrations.index') }}" class="nav-link text-light">Registrations</a>
+
+                        {{-- ADMIN MENU --}}
+                        @if(auth()->user()->role === 'admin')
+                            <a href="{{ route('users.index') }}" class="nav-link text-light">Users</a>
+                            <a href="{{ route('events.index') }}" class="nav-link text-light">Events</a>
+                            <a href="{{ route('categories.index') }}" class="nav-link text-light">Categories</a>
+                            <a href="{{ route('subcategories.index') }}" class="nav-link text-light">Subcategories</a>
+                        @endif
+
+                        <!-- USER DROPDOWN -->
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                {{ auth()->user()->name }}
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <form action="{{ route('auth.logout') }}" method="POST" class="dropdown-item p-0">
+                                        @csrf
+                                        <button type="submit" class="btn btn-link w-100 text-start text-decoration-none">
+                                            Logout
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    @else
+                        <a href="{{ route('auth.login.form') }}" class="btn btn-sm btn-outline-light">Login</a>
+                        <a href="{{ route('auth.register.form') }}" class="btn btn-sm btn-light">Register</a>
+                    @endauth
+
                 </div>
             </div>
         </div>
     </nav>
 
+    <!-- FIX NAVBAR OFFSET -->
     <style>
-        /* Ensure page content is visible below the fixed navbar */
         body {
             padding-top: 70px;
         }
         @media (max-width: 576px) {
-            body { padding-top: 90px; }
+            body {
+                padding-top: 90px;
+            }
         }
-        .navbar .dropdown-menu { z-index: 1100; }
+        .navbar .dropdown-menu {
+            z-index: 1100;
+        }
     </style>
-    @endauth
 
+    <!-- CONTENT -->
     <div class="container">
+
         @if(session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 {{ session('success') }}
@@ -72,9 +92,9 @@
         @endif
 
         @yield('content')
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-

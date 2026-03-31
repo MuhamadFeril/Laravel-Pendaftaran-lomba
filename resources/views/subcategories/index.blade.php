@@ -18,6 +18,7 @@
                 <th>ID</th>
                 <th>Name</th>
                 <th>Category</th>
+                <th>Steps</th>
                 <th>Action</th>
             </tr>
         </thead>

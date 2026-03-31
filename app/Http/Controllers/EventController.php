@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Event;
@@ -11,20 +10,26 @@ class EventController extends Controller
     // ====================== INDEX ======================
     public function index()
     {
-        $events = Event::with('subcategory')
-                        ->orderBy('id', 'desc')
-                        ->paginate(10);
-
+        $events = Event::with('subcategory')->get();
         return view('events.index', compact('events'));
+        return response()->json([
+    'success' => true,
+    'data' => $events
+], 200);
+
     }
+
+    
 
     // ====================== CREATE ======================
-    public function create()
-    {
-        $subcategories = Subcategory::all();
-        return view('events.create', compact('subcategories'));
-    }
+ public function create()
+{
+    // Anda harus mengambil data subcategories dari database terlebih dahulu
+    $subcategories = \App\Models\Subcategory::all(); 
 
+    // Sekarang variabel $subcategories tersedia untuk dikirim ke view
+    return view('events.create', compact('subcategories'));
+}
     // ====================== STORE ======================
     public function store(Request $request)
     {

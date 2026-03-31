@@ -2,71 +2,76 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User; 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    // READ
     public function index()
     {
-        $users = User::all();
-        return view('users.index', compact('users'));
+        // 1. Ambil semua data user dari database
+    $users = \App\Models\User::all(); 
+
+    // 2. Kirim variabel $users ke view
+    return view('users.index', compact('users'));
     }
 
+    // CREATE - form
     public function create()
     {
         return view('users.create');
     }
 
+    // CREATE - save
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'name' => 'required|string|max:100',
-            'email' => 'required|email|unique:users,email',
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
-        'role' => 'required|in:admin,user'
+            'role' => 'required'
         ]);
 
-        $data['password'] = Hash::make($data['password']);
-        User::create($data);
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => $request->role,
+        ]);
 
-        return redirect()->route('users.index')->with('success', 'User created');
+        return redirect()->route('users.index')->with('success', 'User berhasil ditambahkan');
     }
 
-    public function show(User $user)
-    {
-        return view('users.show', compact('user'));
-    }
-
+    // UPDATE - form
     public function edit(User $user)
     {
         return view('users.edit', compact('user'));
     }
 
+    // UPDATE - save
     public function update(Request $request, User $user)
     {
-        $data = $request->validate([
-            'name' => 'required|string|max:100',
-            'email' => "required|email|unique:users,email,{$user->id}",
-            'role' => 'required|in:admin,user',
-            'password' => 'nullable|min:6',
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'role' => 'required'
         ]);
 
-        if (!empty($data['password'])) {
-            $data['password'] = Hash::make($data['password']);
-        } else {
-            unset($data['password']);
+        $data = $request->only('name', 'email', 'role');
+
+        if ($request->password) {
+            $data['password'] = Hash::make($request->password);
         }
 
         $user->update($data);
 
-        return redirect()->route('users.index')->with('success', 'User updated');
+        return redirect()->route('users.index')->with('success', 'User berhasil diupdate');
     }
+    public function destroy()
+{
+    abort(403, 'Aksi hapus tidak diizinkan.');
+}
 
-    public function destroy(User $user)
-    {
-        $user->delete();
-        return redirect()->route('users.index')->with('success', 'User deleted');
-    }
 }

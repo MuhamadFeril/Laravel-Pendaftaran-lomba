@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -10,12 +9,14 @@ class CategoryController extends Controller
 	/**
 	 * Display a listing of the categories.
 	 */
-	public function index()
-	{
-		$categories = Category::orderBy('name')->get();
-		return view('categories.index', compact('categories'));
-	}
+// app/Http/Controllers/CategoryController.php
 
+public function index()
+{
+    $categories = \App\Models\Category::all();
+    // Ini akan menampilkan tabel HTML yang Anda buat tadi
+    return view('categories.index', compact('categories'));
+}
 	/**
 	 * Show the form for creating a new category.
 	 */

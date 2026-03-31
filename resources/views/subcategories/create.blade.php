@@ -36,6 +36,12 @@
             </select>
         </div>
 
+        <div class="mb-3">
+            <label for="steps" class="form-label">Steps (JSON Array)</label>
+            <textarea name="steps" id="steps" class="form-control" rows="5" placeholder='["Step 1", "Step 2", "Step 3"]'>{{ old('steps') ? json_encode(old('steps')) : '' }}</textarea>
+            <small class="form-text text-muted">Enter steps as a JSON array, e.g., ["Step 1", "Step 2"]</small>
+        </div>
+
         <button type="submit" class="btn btn-success">Save</button>
         <a href="{{ route('subcategories.index') }}" class="btn btn-secondary">Back</a>
     </form>
